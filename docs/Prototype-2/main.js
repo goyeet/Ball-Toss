@@ -29,7 +29,7 @@ options = {
   seed: 2,
   theme: "shapeDark",
 
-  isCapturing: true,
+  //isCapturing: true
 };
 
 let player, v;
@@ -49,13 +49,6 @@ function spawn() {
   player = vec(10, 85);
 }
 
-function angleAdjust(angle) {
-  
-  angle -= 0.015;
-
-  return angle;
-}
-
 function update() {
   if (!ticks) {
     spawn();
@@ -71,13 +64,13 @@ function update() {
   rect(groundX, groundY, groundWidth, groundHeight);
   
   color("yellow");
-  playerCollision = char("a", player);;
+  playerCollision = char("a", player);
   //playerCollision = box(player, 9, 9);
 
   if (player.x < 0 || player.y > yBounds || player.x > xBounds) {
     setTimeout(spawn, 1000); // respawns after 1 second
     play("lucky");
-    //end(); // ends
+    //end(); // ends game
   }
 
   if (isJumping) {
@@ -90,7 +83,6 @@ function update() {
   } else {
     if (input.isPressed) {
       bar(player, 20, 1.25, (angle -= 0.05), 0); // this for aiming
-      //bar(player, 20, 3, angleAdjust(), 0); // this for aiming
     }
 
     if (input.isJustReleased) {

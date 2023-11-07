@@ -6,8 +6,8 @@ description = `
 `;
 
 characters = [
-
-  `yylyy
+  `
+  yylyy
  lyylyyl
 yylylylyy
 yylylylyy
@@ -15,9 +15,10 @@ yylllllyy
 yylylylyy
 yylylylyy
  lyylyyl
-  yylyy`
+  yylyy
+  `
 
-];
+]; 
 
 const xBounds = 200;
 const yBounds = 100;
@@ -27,9 +28,8 @@ options = {
   isPlayingBgm: true,
   isReplayEnabled: true,
   seed: 2,
-  theme: "shapeDark",
 
-  //isCapturing: true
+  isCapturing: true // uncomment to capture & press 'c'
 };
 
 let player, v;
@@ -39,6 +39,7 @@ let width;
 let space;
 let scr;
 let playerCollision;
+let thrown = false; 
 
 const groundX = 0;
 const groundY = 90; 
@@ -47,6 +48,7 @@ const groundHeight = 10;
 
 function spawn() {
   player = vec(10, 85);
+  thrown = false;
 }
 
 function update() {
@@ -62,10 +64,8 @@ function update() {
 
   color("blue");
   rect(groundX, groundY, groundWidth, groundHeight);
-  
-  color("yellow");
+  color("black");
   playerCollision = char("a", player);
-  //playerCollision = box(player, 9, 9);
 
   if (player.x < 0 || player.y > yBounds || player.x > xBounds) {
     setTimeout(spawn, 1000); // respawns after 1 second
@@ -74,11 +74,13 @@ function update() {
   }
 
   if (isJumping) {
+    thrown = true;
     player.add(v);
     v.y += 0.1;
-    if (playerCollision.isColliding.rect.blue) {
+    if (playerCollision.isColliding.rect.blue && thrown) {
       isJumping = angle = 0;
       player.y = 85;
+      spawn();
     }
   } else {
     if (input.isPressed) {
@@ -88,7 +90,7 @@ function update() {
     if (input.isJustReleased) {
       play("jump");
       isJumping = 1;
-      v = vec(4).rotate(angle);
+      v = vec(5).rotate(angle); // controls how far ball goes
     }
   }
 

@@ -6,8 +6,7 @@ description = `
 `;
 
 characters = [
-  `
-  yylyy
+  `yylyy
  lyylyyl
 yylylylyy
 yylylylyy
@@ -15,9 +14,7 @@ yylllllyy
 yylylylyy
 yylylylyy
  lyylyyl
-  yylyy
-  `
-
+  yylyy`
 ]; 
 
 const xBounds = 200;
@@ -29,7 +26,7 @@ options = {
   isReplayEnabled: true,
   seed: 2,
 
-  isCapturing: true // uncomment to capture & press 'c'
+  //isCapturing: true // uncomment to capture & press 'c'
 };
 
 let player, v;
@@ -66,7 +63,7 @@ function update() {
   rect(groundX, groundY, groundWidth, groundHeight);
   color("black");
   playerCollision = char("a", player);
-
+  //console.log(player.x);
   if (player.x < 0 || player.y > yBounds || player.x > xBounds) {
     setTimeout(spawn, 1000); // respawns after 1 second
     play("lucky");
@@ -76,21 +73,28 @@ function update() {
   if (isJumping) {
     thrown = true;
     player.add(v);
-    v.y += 0.1;
+    v.y += 0.09; // gravity
+
     if (playerCollision.isColliding.rect.blue && thrown) {
       isJumping = angle = 0;
       player.y = 85;
-      spawn();
+      setTimeout(spawn, 500);
     }
   } else {
     if (input.isPressed) {
-      bar(player, 20, 1.25, (angle -= 0.05), 0); // this for aiming
+      angle -= 0.03; // how fast the angle changes 
+
+      if (angle < -PI / 2) {
+       angle = 0;
+      }
+
+      bar(player, 20, 1.25, angle, 0); // this for aiming
     }
 
     if (input.isJustReleased) {
       play("jump");
       isJumping = 1;
-      v = vec(5).rotate(angle); // controls how far ball goes
+      v = vec(4.5).rotate(angle); // controls how far ball goes
     }
   }
 

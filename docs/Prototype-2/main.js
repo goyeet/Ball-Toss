@@ -14,8 +14,25 @@ yylllllyy
 yylylylyy
 yylylylyy
  lyylyyl
-  yylyy`
-]; 
+  yylyy`,
+  `
+   BBBBBBBBBBB
+  B           B
+ B             B
+ B             B
+  B           B
+   BBBBBBBBBBB
+  `
+];
+
+/*
+  `
+   BBBBBBBBBBBBB
+  B             B
+   BBBBBBBBBBBBB
+  `
+*/
+
 
 const xBounds = 200;
 const yBounds = 100;
@@ -41,7 +58,17 @@ let thrown = false;
 const groundX = 0;
 const groundY = 90; 
 const groundWidth = 300; 
-const groundHeight = 10; 
+const groundHeight = 10;
+
+
+let angleSpeed = 0.02;
+
+// Hoop Spawning variables
+let hoopY;
+let hoopSpeed = 0.5;
+let hoopCollision = char("b", hoopY)
+score = 0;
+let highScore = 0;
 
 function spawn() {
   player = vec(10, 85);
@@ -82,10 +109,12 @@ function update() {
     }
   } else {
     if (input.isPressed) {
-      angle -= 0.03; // how fast the angle changes 
+      angle -= angleSpeed; // how fast the angle changes 
 
       if (angle < -PI / 2) {
-       angle = 0;
+       angleSpeed *= -1;
+      } else if (angle > 0) {
+        angleSpeed *= -1;
       }
 
       bar(player, 20, 1.25, angle, 0); // this for aiming
@@ -100,5 +129,44 @@ function update() {
 
   scr = clamp(player.x - 50, 0, 99) * 0.1 + difficulty;
   //score += scr; controls score, for later
+
+   
+  // ----- Hoop Spawning & score updating -----
+  if (!hoopY) {
+    hoopY = 0;
+  }
+
+  // Move the hoop up and down
+  hoopY += hoopSpeed;
+
+  // Reverse direction when reaching the top or bottom
+  if (hoopY <= 0 || hoopY >= yBounds - 10) {
+    hoopSpeed *= -1;
+  }
+
+  // Draw the hoop
+  char("b", 180, hoopY);
+
+  onCollide();
+}
+
+
+// Function to end the game and update the high score
+function endGame() {
+  play("explosion");
+  if (score > highScore) {
+    highScore = score;
+  }
+  
+  hoopY = undefined;
+  end();
+}
+
+// Check for collision with the hoop
+function onCollide() {
+  if (char("a", player).isColliding.char.b) {
+    play("powerUp"); // play sound effect
+    addScore(1); 
+  }
 }
 

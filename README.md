@@ -6,8 +6,8 @@
 - npm install 
 ### Onwards
 - npm run watch_games
-- copy paste into browser: http://localhost:4000/?Prototype-2 
-
+- copy paste into browser: http://localhost:4000/?Prototype-2 (old)
+- new location http://0.0.0.0:4000/index.html?Prototype-2
 `crisp-game-lib` is a JavaScript library for creating browser games quickly and easily.
 
 - [Step-by-step guide on creating a game using the crisp-game-lib](https://abagames.github.io/literate-diff-viewer/pinclimb/index.html)

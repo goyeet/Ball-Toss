@@ -1,8 +1,8 @@
-title = "prototype-2";
+title = "Ball Toss";
 
 description = `
- Score as many baskets
- as possible within 60 secs
+ Hit the target as much
+ as possible within 30 secs
 
 [Hold]    Change angle
 [Release] Shoot Ball
@@ -10,19 +10,20 @@ description = `
 
 characters = [
     `
- YYYY
-YYYYYY
-YYYYYY
-YYYYYY
-YYYYYY
- YYYY
+ yyyy
+yyyyyy
+yyyyyy
+yyyyyy
+yyyyyy
+ yyyy 
     `,
     `
-   RRRRR
-  R
-  R
-  R
-   RRRRR
+   gg
+   gg
+   gg
+   gg
+   gg
+   gg
   `,
 ];
 
@@ -40,10 +41,8 @@ const yBounds = 100;
 options = {
     viewSize: { x: xBounds, y: yBounds },
     isPlayingBgm: true,
-    // isReplayEnabled: true,
     seed: 2,
-    // theme: "shapeDark",
-    //isCapturing: true // uncomment to capture & press 'c'
+    theme: "pixel",
 };
 
 let gameOver = false;
@@ -73,7 +72,7 @@ score = 0;
 var highScore = 0;
 
 function spawn() {
-    player = vec(10, 85);
+    player = vec(50, 85);
     thrown = false;
 }
 
@@ -85,7 +84,7 @@ function update() {
         // restart game
         gameOver = false;
         score = 0;
-        gameTime = 3000;
+        gameTime = 1500;
     }
     if (!gameOver) {
         if (!ticks) {
@@ -114,7 +113,7 @@ function update() {
         if (isJumping) {
             thrown = true;
             player.add(v);
-            v.y += 0.09; // gravity
+            v.y += 0.1; // gravity
 
             if (playerCollision.isColliding.rect.blue && thrown) {
                 isJumping = angle = 0;
@@ -141,7 +140,7 @@ function update() {
             }
         }
 
-        scr = clamp(player.x - 50, 0, 99) * 0.1 + difficulty;
+        // scr = clamp(player.x - 50, 0, 99) * 0.1 + difficulty;
         //score += scr; controls score, for later
 
         // ----- Hoop Spawning & score updating -----
@@ -158,7 +157,7 @@ function update() {
         }
 
         // Draw the hoop
-        char("b", 180, hoopY);
+        char("b", 150, hoopY);
 
         onCollide();
     }
